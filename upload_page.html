@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Covid-19 Detector - Upload Page </title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  
+  <!-- Custom Javascript Code File -->
+  <!-- <script src="/static/javascript/myfunction.js" crossorigin="anonymous"></script> -->
+
+  <!-- Load TensorFlow.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"></script>
+  
+</head>
+
+<body>
+<!---------------------NAVBAR CONTENT---------------------->  
+<div class="container">
+  <br>
+  <nav class="navbar">
+    <div class="container-fluid">
+      
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="glyphicon glyphicon-th" style="font-size:25px"></span>
+                               
+      </button>
+        <a class="navbar-brand" style="font-size:35px;font-weight:600">Covid-19 Tester</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active" style="font-size:20px;font-weight:600;">
+            <a href="index.html" class="text-warning">Home</a></li>
+          
+        <li style="font-size:20px;font-weight:600">
+            <a href="upload_page.html" class="text-warning">Predict</a></li>
+  
+        <li style="font-size:20px;font-weight:600">
+          <a href="test_data_page.html" class="text-warning">Test Data</a></li>
+          
+        <!--  
+        <li class="dropdown" style="font-size:20px;font-weight:600">
+          <a class="dropdown-toggle text-warning" data-toggle="dropdown" 
+            href="#">Page 1 <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+              <li><a href="#"><strong>Page 1-1</strong></a></li>
+              <li><a href="#"><strong>Page 1-2</strong></a></li>
+              <li><a href="#"><strong>Page 1-3</strong></a></li>
+          </ul>
+        </li>
+        -->
+        <li style="font-size:20px;font-weight:600">
+            <a href="contact_page.html" class="text-warning">Contact</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li style="font-size:20px;font-weight:600"><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+        <li style="font-size:20px;font-weight:600"><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>
+    </div>
+     
+  </div>
+  </nav>
+<hr>
+</div>
+
+<div class="container">
+  <div class="col-lg-6">
+      <h3>Predict Covid-19 using Lung's Parenchyma Image</h3><hr>
+      <div class="progress">
+        <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+          Loading Model
+        </div>
+      <!-- <form method="post" enctype="multipart/form-data"> -->
+        <input type="checkbox" id="op1" name="returnClassName" value="true" checked> <label for="op1"> Return Class Name</label><br>
+        <input type="checkbox" id="op2" name="returnConfidenceScore" value="true" checked> <label for="op2"> Return Probability Score</label><br>
+        <input type="checkbox" id="op3" name="returnAllConfidenceScore" value="true"> <label for="op3"> Return All Confidence Score</label><br>
+        <input type="checkbox" id="op4" name="showImageName" value="true"> <label for="op4"> Show Image Name</label><br><br>
+        Select image to upload:
+        <input type="file" name="uploaded-img" id="uploaded-img" required>
+        <br>
+        <!-- <input type="submit" value="Get Prediction Result" name="submit"> -->
+      <!-- </form>   -->
+  </div><br><br><br>
+
+  <div class="col-lg-6">
+    <div class="panel panel-default col-lg-10">
+      <div class="panel-body"><img id="output-img" class="img-responsive" src="" crossorigin="anonymous"></div>
+      <div class="panel-footer">
+        <p>test_image234.jpg</p>
+        <span><strong>Class: </strong><span>NiCT, &nbsp;</span></span>
+        <span><strong>Score: </strong><span>82 % &nbsp;</span></span>
+        <span class="glyphicon glyphicon-info-sign" data-toggle="tooltip" title=""></span>
+      </div>
+    </div>
+  </div> 
+</div>
+
+
+</body>
+</html>
+
+<script>
+
+// function readURL(input) {
+//   if (input.files && input.files[0]) {
+//     console.log(input.files[0]);
+//     var reader = new FileReader();
+//     reader.onload = function (e) {
+//       $('#output-img')
+//         .attr('src', e.target.result);
+//         // .width(150)
+//         // .height(200);
+//     };
+//     reader.readAsDataURL(input.files[0]);
+//   }
+// }
+
+
+$("#uploaded-img").change(function(){
+  let reader = new FileReader();
+  reader.onload = function() {
+      let dataURL = reader.result;
+      $("#output-img").attr("src", dataURL);
+      $("#output-img").empty();
+  }
+  let file = $("#uploaded-img").prop('files')[0];
+  reader.readAsDataURL(file);
+})
+
+let model;
+$(document).ready(async function(){
+    $('.progress-bar').show();
+    model = await tf.loadLayersModel('static/covid_js_model/model.json');
+    $('.progress-bar').hide();
+});
+
+$("#submit").on('clicked', async function(){
+    let image = $('#output-img').get(0);
+    let tensor = tf.browser.fromPixels(images)
+        .resizeNearestNeighbour([300,300])
+        .toFloat()
+        .div(tf.scalar(255.0))
+        .expandDims();
+
+    let predictions = await model.predict(tensor).data();
+
+    console.log(predictions);
+
+    // let result = Array.from(predictions)
+    //     .map(function(p,i){
+    //         return {
+    //             probality: p,
+    //             className: TARGET_CLASSES[i]
+    //         }
+    //     }).sort()
+})
+</script>
+

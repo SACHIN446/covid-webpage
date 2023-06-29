@@ -1,0 +1,63 @@
+
+<div class="container">
+<div class="row">
+    <div class="col-lg-2"></div>   
+    <div class="col-lg-6">    
+        <h3>Predict Covid-19 using Lung's Parenchyma Image</h3><br>
+        <p><strong><h3>About NN Model</h3></strong></p><hr>
+        <p style="font-size:18px;">This is a Deep Neural Network Model designed using <code>CNN</code>, 
+            <code>MaxPooling</code>, <code>Dense</code>, <code>Flatten</code> and other layers. 
+            <br>It classifies the <code>X-Ray</code> images of <code>lung parenchyma</code> into three classes namely</p>
+        <ul style="font-size:16px;">
+            <li><strong>NiCT</strong></li>
+            <li><strong>pCT</strong></li>
+            <li><strong>nCT</strong></li></ul><br>
+        <p style="font-size:18px;"><code>pCT</code> means <code>Positive CT Scan</code> images and it refers to image of Covid19 patient, 
+            <br><code>nCT</code> means <code>Negative CT Scan images</code> i.e Normal Person and 
+            <br><code>NiCT</code> means <code>Non-informative CT Scan images</code>means no decision can be made for this kind of image 
+            because of very less informative features present in image.</p>
+        
+        <p><strong><h3>ABOUT THE DATASET:</h3></strong></p><hr>
+        <p style="font-size:18px;">Dataset contains X-Ray image of Lung Parenchyma
+            divided into three class NiCT, nCT, pCT. Figure 1.1 shows
+            the number of samples, classes available in Dataset. It
+            has total size of 4.0 GB.Data were collected from 2 hospitals, Union Hospital
+            (HUST-UH) and Liyuan Hospital (HUST-LH). Some sample images are shown in below</p>
+        <img class="img-responsive" src="{{ url_for('get_image',folder='web_page_images', name='sample.png') }}">
+
+ 
+        <p><strong><h3>Accuracy of Model</h3></strong></p><hr>
+        <p style="font-size:18px;">Model shows approx <code>94%</code> of accuracy in just only <code>20 epoch</code>. On random training, accuracy reaches to <ode>97.88%</code> in <code>30 epoch</code>. Below figure show the <code>Training and Validation</code> Accuracy.</p>
+        <img class="img-responsive" src="{{tva_img}}">
+        <p style="font-size:18px;">Accuracy result obtained during training at <code>20 epoch</code> is shown below.</p>
+        <img src="{{epoch_img}}">
+                
+        <p><strong><h3>Loss of Model</h3></strong></p><hr>
+        <p style="font-size:18px;">Below show the decrease in <code>Training and
+            Validation</code> loss during the training period.
+            <code>Loss</code> value is going downward (approaching toward <code>zero</code>), 
+            it seems to be good case. Also by increasing the epoch number,we can lower the <code>Training and Validation</code> loss.</p>
+        <img src="{{loss_img}}"><br><br><hr>
+
+        <p style="font-size:18px;">Want to test the model &nbsp;<a href="upload_page.html"><button class="btn btn-default"> Click Here</button></a></p>
+        <br><br>
+        <p><strong><h3>More Information (Research Paper)</h3></strong></p><hr>
+        <p style="font-size:18px;">An associated Research Paper can be found on below link. You can find more details about the model in it.
+        </p>
+        <p style="font-size:16px;"><br>
+        <a href="https://www.irjet.net/archives/V8/i3/IRJET-V8I3171.pdf">
+            https://www.irjet.net/archives/V8/i3/IRJET-V8I3171.pdf</a></p>
+         
+            
+    <br>
+    <br><br><br><br>
+    <br>
+    <br><br><br><br><br>
+    <br><br><br><br><br>
+    <br><br><br><br><br>
+    <br><br><br><br><br>
+    <br><br><br><br>
+    </div>
+    <div class="col-lg-3"></div>  
+    </div>
+</div>

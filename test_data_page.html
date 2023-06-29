@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+   
+{% block content %}   
+<div class="container">
+    <h3>Testing Dataset</h3>
+    <p>Below images can be used for testing the application</p> <hr>
+
+    <h3>pCt category images</h3><hr>
+    <div class="row">
+    {% for img in pct: %}
+        <div class="col-lg-3"><img src="{{ url_for('get_image', folder='pct', name=img) }}" class="img-responsive" alt="{{img}}"></div>
+    {% endfor %}
+    </div><br>
+
+
+    <hr><h3>nCt category images</h3><hr>
+    <div class="row">
+    {% for img in nct: %}
+        <div class="col-lg-3"><img src="{{ url_for('get_image', folder='nct', name=img) }}" class="img-responsive" alt="{{img}}"></div>
+    {% endfor %}
+    </div><br>
+
+    <hr><h3>pCt category images</h3><hr>
+    <div class="row">
+    {% for img in nict: %}
+        <div class="col-lg-3"><img src="{{ url_for('get_image', folder='nict', name=img) }}" class="img-responsive" alt="{{img}}"></div>
+    {% endfor %}
+    </div><br>
+    
+</div>
+{% endblock %}
+
